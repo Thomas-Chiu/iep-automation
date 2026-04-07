@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEP 會議自動排程系統 - 課表智慧比對</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container glass-panel">
+        <header>
+            <h1>IEP 課表智慧比對系統 ✨</h1>
+            <p>透過 Google Gemini AI，自動尋找導師與輔導老師的最佳開會時段。</p>
+        </header>
+
+        <section class="settings-section">
+            <div class="input-group">
+                <label for="apiKey">Gemini API Key</label>
+                <input type="password" id="apiKey" placeholder="安全儲存於瀏覽器中...">
+
+                <label for="modelSelect">AI 模型</label>
+                <select id="modelSelect">
+                    <option value="gemini-3-flash-preview" selected>⚡ 3.0 Flash Preview (高階推理/免費)</option>
+                    <option value="gemini-2.5-flash">🚀 2.5 Flash (基本/免費)</option>
+                </select>
+
+                <button id="saveKeyBtn" class="btn secondary">儲存設定</button>
+            </div>
+            <p class="status-msg" id="keyStatus"></p>
+        </section>
+
+        <section class="upload-section">
+            <div class="upload-box" id="teacherBox">
+                <h3>導師課表</h3>
+                <div class="drop-zone" id="teacherDrop">
+                    <p>點擊或拖曳圖片至此<br><small>(支援 JPG, PNG)</small></p>
+                    <input type="file" id="teacherFile" accept="image/png, image/jpeg" hidden>
+                </div>
+                <div class="preview" id="teacherPreview"></div>
+            </div>
+
+            <div class="upload-box" id="counselorBox">
+                <h3>輔導老師課表</h3>
+                <div class="drop-zone" id="counselorDrop">
+                    <p>點擊或拖曳圖片至此<br><small>(支援 JPG, PNG)</small></p>
+                    <input type="file" id="counselorFile" accept="image/png, image/jpeg" hidden>
+                </div>
+                <div class="preview" id="counselorPreview"></div>
+            </div>
+        </section>
+
+        <div class="action-section">
+            <button id="analyzeBtn" class="btn primary" disabled>開始 AI 智慧比對 🚀</button>
+        </div>
+
+        <section class="result-section hidden" id="resultSection">
+            <h2>🎉 建議備選時間</h2>
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>AI 正在努力閱讀課表，請稍候 10 - 15 秒...</p>
+            </div>
+            <div id="errorMsg" class="error hidden"></div>
+            <div class="result-content" id="resultContent"></div>
+            <div class="json-output-wrapper hidden" id="jsonWrapper">
+                <h4>傳送給 Sheet 的 JSON 格式：</h4>
+                <div class="json-output" id="jsonOutput"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
