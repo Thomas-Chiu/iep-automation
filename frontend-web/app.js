@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const modelSelect = document.getElementById('modelSelect');
     const saveKeyBtn = document.getElementById('saveKeyBtn');
     const keyStatus = document.getElementById('keyStatus');
-    
+
     const teacherDrop = document.getElementById('teacherDrop');
     const counselorDrop = document.getElementById('counselorDrop');
     const teacherFile = document.getElementById('teacherFile');
     const counselorFile = document.getElementById('counselorFile');
     const teacherPreview = document.getElementById('teacherPreview');
     const counselorPreview = document.getElementById('counselorPreview');
-    
+
     const analyzeBtn = document.getElementById('analyzeBtn');
     const resultSection = document.getElementById('resultSection');
     const loading = document.getElementById('loading');
@@ -44,14 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Drag & Drop UI logic
     const setupDropZone = (dropZone, fileInput, previewContainer, imageState) => {
         dropZone.addEventListener('click', () => fileInput.click());
-        
+
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.classList.add('dragover');
         });
-        
+
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        
+
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('dragover');
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 processImageFile(e.dataTransfer.files[0], dropZone, previewContainer, imageState);
             }
         });
-        
+
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length) {
                 processImageFile(e.target.files[0], dropZone, previewContainer, imageState);
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchGeminiMatching(apiKey) {
         const targetModel = modelSelect.value || 'gemini-3-flash-preview';
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${apiKey}`;
-        
+
         const promptText = `
         這裡有兩張學校老師的課表圖片。第一張是「導師」的課表，第二張是「輔導老師」的課表。
         為了確保 100% 精準比對不遺漏，請你「一步一步」思考並列出過程：
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.error?.message || 'API 請求失敗，可能金鑰無效或達配額限制。');
         }
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Try to extract JSON
         const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/);
         let markdownText = text;
-        
+
         if (jsonMatch) {
             const jsonStr = jsonMatch[1];
             try {
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (e) {
                 console.warn("JSON Parse Error:", e);
             }
-        } 
+        }
 
         // Use marked to render Markdown if loaded, else fallback to standard text
         if (typeof marked !== 'undefined') {
